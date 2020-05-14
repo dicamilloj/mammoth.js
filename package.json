@@ -1,6 +1,6 @@
 {
   "name": "mammoth-az-eang",
-  "version": "1.4.8",
+  "version": "1.4.8-fork",
   "author": "Michael Williamson <mike@zwobble.org>",
   "description": "Convert Word documents from docx to simple HTML and Markdown",
   "keywords": [
