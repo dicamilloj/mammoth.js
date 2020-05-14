@@ -13,6 +13,52 @@ There's a large mismatch between the structure used by .docx and the structure o
 meaning that the conversion is unlikely to be perfect for more complicated documents.
 Mammoth works best if you only use styles to semantically mark up your document.
 
+# Custom changes to libray
+
+### lib/docx/number-xml.js include number format
+
+        var numFmt = levelElement.first("w:numFmt").attributes["w:val"];
+        levels[levelIndex] = {
+            isOrdered: numFmt !== "bullet",
+            level: levelIndex
+            level: levelIndex,
+            format: numFmt
+        };
+    });
+
+* Changes start at line 52
+
+### lib/document-to-html.js Preserve letter ordering
+
+    if (!!element.numbering && element.numbering.isOrdered) {
+            if (style.to._elements[0].tagName === 'ol' && element.numbering.format === 'lowerLetter')
+                style.to._elements[0].attributes.type = 'a';
+    }
+
+* Changes start at line 117
+
+### lib/docx/body-reader.js Expose run color property
+
+    color: element.firstOrEmpty("w:color").attributes["w:val"],
+
+* Changes start at line 67
+
+### lib/documents.js Expose run color property
+
+    font: properties.font || null,
+    color: properties.color || null
+
+* Changes start at line 64
+
+### lib/index.js Make DocumentConverter publicly accessible & expose more of the api
+
+    exports.DocumentConverter = DocumentConverter;
+    exports.readOptions = readOptions;
+    exports.parseStyleMap = parseStyleMap;
+
+* Changes start at line 20
+
+
 The following features are currently supported:
 
 * Headings.
